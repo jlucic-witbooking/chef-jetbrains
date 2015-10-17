@@ -18,9 +18,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-default['idea']['version'] = '14.1.3'
-default['idea']['edition'] = 'C'
+default['idea']['user'] = 'mongoose'
+default['idea']['version'] = '10.0.4'
+default['idea']['edition'] = 'U'
 default['idea']['64bits']['Xmx'] = '2048m'
 default['idea']['64bits']['Xms'] = '2048m'
-
+default['idea']['setup_dir']='/home/mongoose/jetbrains'
+default['idea']['product']='webstorm'
+default['idea']['product_name']='WebStorm'
+default['java']['oracle']['accept_oracle_download_terms']=true
+default['java']['install_flavor']='oracle'
+default['java']['jdk_version']='8'

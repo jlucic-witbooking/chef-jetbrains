@@ -16,7 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
 include_recipe 'java'
 
 user = node['idea']['user']
@@ -26,26 +25,32 @@ edition = node['idea']['edition']
 version = node['idea']['version']
 
 setup_dir = node['idea']['setup_dir']
-ide_dir = node['idea']['ide_dir'] || "idea-I#{edition}-#{version}"
+product = node['idea']['product']
+product_name = node['idea']['product_name']
+installed_dir = node['idea']['product_name']
+ide_dir = node['idea']['ide_dir'] || "#{product}-#{version}"
 
 install_path = File.join(setup_dir, ide_dir)
-archive_path = File.join("#{Chef::Config[:file_cache_path]}", "ideaI#{edition}-#{version}.tar.gz")
+archive_path = File.join("#{Chef::Config[:file_cache_path]}", "#{product}-#{version}.tar.gz")
+
+puts "PATH #{install_path}"
 
 if !::File.exists?("#{install_path}")
 
   # Download IDEA archive
   remote_file archive_path do 
-    source "http://download.jetbrains.com/idea/ideaI#{edition}-#{version}.tar.gz"
+    source "http://download.jetbrains.com/#{product}/#{product_name}-#{version}.tar.gz"
   end
 
-  # Extract archive
+
+
   execute 'extract archive' do
-    command "tar xf #{archive_path} -C #{Chef::Config[:file_cache_path]}/; mv #{Chef::Config[:file_cache_path]}/idea-I#{edition}-* #{install_path}; chown -R #{user}:#{group} #{install_path}"
+    command "tar xf #{archive_path} -C #{Chef::Config[:file_cache_path]}/; mv #{Chef::Config[:file_cache_path]}/#{product_name}-*/ #{Chef::Config[:file_cache_path]}/#{product}-#{version}; mv #{Chef::Config[:file_cache_path]}/#{product}-#{version} #{install_path}; chown -R #{user}:#{group} #{install_path}"
     action :run
   end 
 
   # vmoptions config
-  template File.join("#{install_path}", "bin", "idea64.vmoptions") do
+  template File.join("#{install_path}", "bin", "#{product}64.vmoptions") do
     source "idea64.vmoptions.erb"
     variables(
       :xms => node['idea']['64bits']['Xms'],

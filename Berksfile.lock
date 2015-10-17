@@ -1,0 +1,9 @@
+DEPENDENCIES
+  jetbrains
+    path: .
+    metadata: true
+
+GRAPH
+  java (1.35.0)
+  jetbrains (0.3.0)
+    java (>= 0.0.0)
